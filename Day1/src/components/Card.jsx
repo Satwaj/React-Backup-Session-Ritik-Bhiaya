@@ -5,11 +5,12 @@ const Card = ({ postData, like, count }) => {
   
 
   return (
-    <div>
+    <div className="flex flex-row">
      {postData.map((items, index) => (
+      <div>
         <div key={items.id ?? index} className="m-4 p-2 card w-100 h-110 bg-zinc-600 rounded-md flex flex-col justify-content items-center gap-4">
           <img
-            className="w-50 h-50 rounded-full "
+            className="w-50 h-50 rounded-full object-cover "
             src={items.image}
             alt=""
           />
@@ -27,6 +28,7 @@ const Card = ({ postData, like, count }) => {
             </button>
           </div>
         </div>
+      </div>
      ))}
     </div>
   );
