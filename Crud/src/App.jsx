@@ -1,7 +1,16 @@
 import Card from './components/Card' 
-import { useState,useEffect } from 'react' 
+import { useState,useEffect, useRef } from 'react' 
+
 
 const App = () => {
+
+  console.log('App rendered')
+
+  const inputRef = useRef()
+  const inputRef1 = useRef()
+ 
+  
+
 
 
 
@@ -9,18 +18,33 @@ const App = () => {
   const [title, setTitle] = useState();
   const [desc, setDesc] = useState();
   const [data, setData] = useState(JSON.parse(localStorage.getItem("data")) || []);
+  const [edit , setEdit] = useState(null)
 
 const submitHandler = (e) => {
   e.preventDefault()
   console.log('Form submitted')
 
-  const copyArr = [...data]
+  if(edit !== null){
+    const copy = [...data]
+    copy[edit] = {title, desc}
+    setData(copy)
+    setEdit(null)
+    setTitle('')
+    setDesc('')
+    return
+  }
+   else
+    {  
 
-  copyArr.push({title, desc})
-  setData(copyArr)
+  const copyArr = [...data];
 
-  setTitle('')  
-  setDesc('')
+  copyArr.push({ title, desc });
+  setData(copyArr);
+
+  setTitle("");
+  setDesc("");}
+
+ 
 }
 
 useEffect(() => {
@@ -40,13 +64,15 @@ const deleteHandler = (idx)=>{
     <div>
       <h1 className='text-3xl font-bold  bg-red-300 underline text-center mt-10'>Hello world!</h1>
       <form  className='w-1/2 mx-auto mt-10' onSubmit={submitHandler}>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" placeholder='Enter your name' className='w-full p-2 border border-gray-300 rounded mb-4' />
-        <input value={desc} onChange={(e) => setDesc(e.target.value)} type="text" placeholder='Enter info' className='w-full p-2 border border-gray-300 rounded mb-4' />
+        <input ref={inputRef} value={``} onChange={(e) => setTitle(e.target.value)} type="text" placeholder='Enter your name' className='w-full p-2 border border-gray-300 rounded mb-4' />
+        <input ref={inputRef1}  value={``} onChange={(e) => setDesc(e.target.value)} type="text" placeholder='Enter info' className='w-full p-2 border border-gray-300 rounded mb-4' />
         <button   type='submit' className='w-full p-2 bg-blue-500 text-white rounded'>Submit</button>
       </form>
 
 
-      <Card data={data} deleteHandler={deleteHandler} />
+      <Card data={data} deleteHandler={deleteHandler} setTitle={setTitle} setDesc={setDesc} setEdit={setEdit} edit={edit} />
+
+   
     </div>
   )
 }
