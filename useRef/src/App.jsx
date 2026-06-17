@@ -10,7 +10,7 @@ const App = () => {
 
   const inputRef = useRef({});
   const inputRef2 = useRef({});
-  console.log( inputRef, inputRef2);
+  // console.log( inputRef, inputRef2);
 
 
  
